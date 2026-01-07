@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mims Jewels | Where Luxury Meets Affordability</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --rose: #d8a1b3;
+      --light: #f5f5f5;
+      --card: #151515;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Playfair Display", serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--light);
+    }
+
+    header {
+      padding: 40px;
+      text-align: center;
+      border-bottom: 1px solid #222;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      letter-spacing: 3px;
+      color: var(--rose);
+    }
+
+    header p {
+      margin-top: 10px;
+      font-style: italic;
+      opacity: 0.9;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+    }
+
+    nav span {
+      cursor: pointer;
+      color: var(--rose);
+    }
+
+    .hero {
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .hero button {
+      background: var(--rose);
+      border: none;
+      padding: 14px 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 20px;
+    }
+
+    .shop {
+      padding: 60px 40px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+    }
+
+    .product {
+      background: var(--card);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-8px);
+    }
+
+    .product img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .product h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .product p {
+      color: var(--rose);
+      margin-bottom: 12px;
+    }
+
+    .product button {
+      background: transparent;
+      border: 1px solid var(--rose);
+      color: var(--rose);
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .cart {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      background: var(--card);
+      padding: 15px;
+      border: 1px solid var(--rose);
+      display: none;
+      max-width: 260px;
+    }
+
+    .cart h4 {
+      margin-bottom: 10px;
+      color: var(--rose);
+    }
+
+    .cart ul {
+      list-style: none;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MIMS JEWELS</h1>
+  <p>Where Luxury Meets Affordability</p>
+</header>
+
+<nav>
+  <span>Shop</span>
+  <span onclick="toggleCart()">Cart 🛒 (<span id="count">0</span>)</span>
+</nav>
+
+<section class="hero">
+  <h2>Luxury-Inspired Sunglasses</h2>
+  <p>Elevate every look with premium style — without the premium price.</p>
+  <button onclick="document.querySelector('.shop').scrollIntoView()">Shop Collection</button>
+</section>
+
+<section class="shop">
+  <div class="products" id="products"></div>
+</section>
+
+<div class="cart" id="cart">
+  <h4>Your Cart</h4>
+  <ul id="cartItems"></ul>
+</div>
+
+<footer>
+  © 2026 Mims Jewels. All rights reserved.
+</footer>
+
+<script>
+  const products = [
+    { name: "Rose Noir", price: 45 },
+    { name: "Velvet Luxe", price: 50 },
+    { name: "Golden Muse", price: 55 },
+    { name: "Midnight Glam", price: 48 },
+    { name: "Paris Chic", price: 60 },
+    { name: "Bella Frame", price: 42 },
+    { name: "Iconic Glow", price: 58 },
+    { name: "Elite Shade", price: 52 },
+    { name: "Opal Vision", price: 47 },
+    { name: "Maison Rose", price: 65 }
+  ];
+
+  const cart = [];
+
+  const productsDiv = document.getElementById("products");
+  const cartItems = document.getElementById("cartItems");
+  const count = document.getElementById("count");
+
+  products.forEach((p, i) => {
+    productsDiv.innerHTML += `
+      <div class="product">
+        <img src="https://via.placeholder.com/300x200?text=Sunglasses+${i+1}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}.00</p>
+        <button onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+      </div>
+    `;
+  });
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    count.innerText = cart.length;
+    renderCart();
+  }
+
+  function renderCart() {
+    cartItems.innerHTML = "";
+    cart.forEach(item => {
+      cartItems.innerHTML += `<li>${item.name} — $${item.price}</li>`;
+    });
+  }
+
+  function toggleCart() {
+    const cartBox = document.getElementById("cart");
+    cartBox.style.display = cartBox.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>
