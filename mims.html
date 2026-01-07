@@ -30,7 +30,262 @@ header {
   position: relative;
 }
 
-header h1 {
+  header h1 {
   font-family: 'Playfair Display', serif;
   font-size: 3rem;
-  color
+  color: var(--rose);
+  letter-spacing: 3px;
+}
+
+header p {
+  margin-top: 10px;
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 1.2rem;
+}
+  header .social {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  display: flex;
+  gap: 15px;
+}
+
+header .social a {
+  color: var(--rose);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+  header .social a:hover { color: #fff; }
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  padding: 20px 50px;
+  font-weight: 500;
+}
+
+nav span {
+  cursor: pointer;
+  color: var(--rose);
+  transition: color 0.3s;
+}
+
+  nav span:hover { color: #fff; }
+
+.hero {
+  position: relative;
+  text-align: center;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('https://images.unsplash.com/photo-1600185364153-07b6d2d002c0?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+}
+
+  .hero::after {
+  content: '';
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(11,11,11,0.6);
+}
+
+.hero h2, .hero p {
+  position: relative;
+  z-index: 1;
+  color: var(--light);
+  animation: fadeIn 1.5s ease forwards;
+}
+  .hero h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 15px; }
+.hero p { font-size: 1.2rem; opacity: 0.9; }
+
+.hero button {
+  position: relative;
+  z-index:1;
+  margin-top: 20px;
+  padding: 12px 28px;
+  border: 1px solid var(--rose);
+  background: transparent;
+  color: var(--rose);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+  .hero button:hover {
+  background: var(--rose);
+  color: var(--bg);
+}
+
+.shop {
+  padding: 60px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 30px;
+}
+  .product {
+  background: var(--card-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px var(--hover-shadow);
+}
+  .product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  transition: transform 0.3s;
+}
+  .product img:hover { transform: scale(1.05); }
+
+.product h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
+.product p { color: var(--rose); margin-bottom: 12px; }
+.product button {
+  background: transparent;
+  border: 1px solid var(--rose);
+  color: var(--rose);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+  .product button:hover {
+  background: var(--rose);
+  color: var(--bg);
+}
+
+.cart {
+  position: fixed;
+  right: -300px;
+  top: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--card-bg);
+  border-left: 2px solid var(--rose);
+  padding: 20px;
+  transition: right 0.4s ease;
+  overflow-y: auto;
+  z-index: 999;
+}
+  .cart.open { right: 0; }
+
+.cart h4 {
+  margin-bottom: 15px;
+  color: var(--rose);
+  font-family: 'Playfair Display', serif;
+}
+  .cart ul { list-style: none; font-size: 0.95rem; }
+
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  border-top: 1px solid #222;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>MIMS JEWELS</h1>
+  <p>Where Luxury Meets Affordability</p>
+  <div class="social">
+    <a href="https://instagram.com/yourprofile" target="_blank">Instagram</a>
+    <a href="https://wa.me/1234567890" target="_blank">WhatsApp</a>
+  </div>
+</header>
+  <nav>
+  <span onclick="scrollToShop()">Shop</span>
+  <span onclick="toggleCart()">Cart 🛒 (<span id="count">0</span>)</span>
+</nav>
+
+<section class="hero">
+  <h2>Luxury-Inspired Sunglasses</h2>
+  <p>Elevate every look with premium style — without the premium price.</p>
+  <button onclick="scrollToShop()">Shop Collection</button>
+</section>
+
+<section class="shop" id="shop">
+  <div class="products" id="products"></div>
+</section>
+<div class="cart" id="cart">
+  <h4>Your Cart</h4>
+  <ul id="cartItems"></ul>
+</div>
+
+<footer>
+  © 2026 Mims Jewels. All rights reserved.
+</footer>
+  <script>
+const products = [
+  { name: "Rose Noir", price: 45, img:"https://images.unsplash.com/photo-1611162617210-bf62b5d7bb82?auto=format&fit=crop&w=300&q=80" },
+  { name: "Velvet Luxe", price: 50, img:"https://images.unsplash.com/photo-1598970434795-0c54fe7c0642?auto=format&fit=crop&w=300&q=80" },
+  { name: "Golden Muse", price: 55, img:"https://images.unsplash.com/photo-1600185364153-07b6d2d002c0?auto=format&fit=crop&w=300&q=80" },
+  { name: "Midnight Glam", price: 48, img:"https://images.unsplash.com/photo-1580894894515-9f3f302a48aa?auto=format&fit=crop&w=300&q=80" },
+  { name: "Paris Chic", price: 60, img:"https://images.unsplash.com/photo-1598970434762-cd3a56a4e5b6?auto=format&fit=crop&w=300&q=80" },
+  { name: "Bella Frame", price: 42, img:"https://images.unsplash.com/photo-1611599539205-1a92017b5d1b?auto=format&fit=crop&w=300&q=80" },
+  { name: "Iconic Glow", price: 58, img:"https://images.unsplash.com/photo-1580894894512-f9c1d14e8a20?auto=format&fit=crop&w=300&q=80" },
+  { name: "Elite Shade", price: 52, img:"https://images.unsplash.com/photo-1598970434740-b4896b2f6dc4?auto=format&fit=crop&w=300&q=80" },
+  { name: "Opal Vision", price: 47, img:"https://images.unsplash.com/photo-1611162617205-cb1a5e69eb5c?auto=format&fit=crop&w=300&q=80" },
+  { name: "Maison Rose", price: 65, img:"https://images.unsplash.com/photo-1580894894525-ef3d8f3b8d1a?auto=format&fit=crop&w=300&q=80" }
+];
+const cart = [];
+const productsDiv = document.getElementById("products");
+const cartItems = document.getElementById("cartItems");
+const count = document.getElementById("count");
+const cartBox = document.getElementById("cart");
+
+products.forEach((p,i)=>{
+  productsDiv.innerHTML += `
+    <div class="product">
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>$${p.price}.00</p>
+      <button onclick="addToCart('${p.name}',${p.price})">Add to Cart</button>
+    </div>
+  `;
+});
+    unction renderCart(){
+  cartItems.innerHTML = "";
+  cart.forEach(item=>{
+    cartItems.innerHTML += `<li>${item.name} — $${item.price}</li>`;
+  });
+}
+
+function toggleCart(){
+  cartBox.classList.toggle('open');
+}
+function scrollToShop(){
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
